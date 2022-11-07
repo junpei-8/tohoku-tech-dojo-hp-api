@@ -1,0 +1,36 @@
+# Config Ref:  https://gqlgen.com/config
+
+# schema tells gqlgen when the GraphQL schema is located.
+schema:
+  # - ./gql/*.gql
+  - ./gql/ent.gql
+  - ./gql/user.gql
+  - ./gql/news.gql
+  - ./gql/tag.gql
+
+# resolver reports where the resolver implementations go.
+resolver:
+  layout: follow-schema
+  dir: ./resolvers
+  filename_template: "{name}.go"
+
+# gqlgen will search for any type names in the schema in these go packages
+# if they match it will use them, otherwise it will generate them.
+
+# autobind tells gqlgen to search for any type names in the GraphQL schema in the
+# provided package. If they match it will use them, otherwise it will generate new.
+autobind:
+  - app/ent
+  - app/ent/user
+  - app/ent/news
+  - app/ent/tag
+
+# This section declares type mapping between the GraphQL and Go type systems.
+models:
+  # Defines the ID field as Go 'int'.
+  ID:
+    model:
+      - github.com/99designs/gqlgen/graphql.IntID
+  Node:
+    model:
+      - app/ent.Noder
