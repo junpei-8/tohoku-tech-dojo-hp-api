@@ -30,6 +30,8 @@ WORKDIR /app
 
 COPY . .
 
+RUN go generate ./...
+
 RUN go build -o ./dist cmd/api/main.go
 
 
