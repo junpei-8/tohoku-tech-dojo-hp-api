@@ -24,7 +24,9 @@ func SetupServer(client *ent.Client) {
 		srv.Use(&debug.Tracer{})
 	}
 
-	client.News.Use(hook.News.Hooks(hook.News{})...)
+	client.User.Use(hook.User.Hooks(hook.User{client})...)
+	// client.News.Use(hook.News.Hooks(hook.News{client})...)
+	client.Tag.Use(hook.Tag.Hooks(hook.Tag{client})...)
 
 	http.Handle("/",
 		playground.Handler("GraphQL playground", "/query"),

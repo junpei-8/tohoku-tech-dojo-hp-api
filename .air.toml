@@ -7,7 +7,7 @@ tmp_dir = ".air"
 
 [build]
 # Just plain old shell command. You could use `make` as well.
-cmd = "go generate ./... && go build -o ./.air/main ./cmd/dev_api/main.go"
+cmd = "go build -o ./.air/main ./cmd/dev_api/main.go"
 # Binary file yields from `cmd`.
 bin = ".air/main"
 # Customize binary, can setup environment variables when run your app.
