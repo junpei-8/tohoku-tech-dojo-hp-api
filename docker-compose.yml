@@ -5,8 +5,6 @@ services:
     container_name: ${DB_CONTAINER_NAME}
     image: postgres:14
     restart: always
-    volumes:
-      - ./db:/var/lib/postgresql/data
     ports:
       - "${DB_PORT}:${DB_PORT}"
     environment:
@@ -14,6 +12,8 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     command: -p ${DB_PORT}
+    volumes:
+      - ./.docker/${DB_CONTAINER_NAME}:/var/lib/postgresql/data
 
   db-gui:
     container_name: ${DB_GUI_CONTAINER_NAME}
@@ -24,29 +24,40 @@ services:
       DATABASE_URL: ${DB_URL}
     depends_on:
       - db
-  
-  migrate-db:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-      target: migrate-db
-      no_cache: true
     volumes:
-      - .:/app
-    depends_on:
-      - db
+      - ./.docker/${DB_GUI_CONTAINER_NAME}:/var/lib/postgresql/data
 
   api:
     container_name: ${API_CONTAINER_NAME}
     build:
-      context: .
-      dockerfile: Dockerfile
-      target: dev-api
+      dockerfile: Dockerfile.api
+      target: dev
     ports:
       - "${API_PORT}:${API_PORT}"
     expose:
       - ${API_PORT}
-    volumes:
-      - .:/app
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /app/.credential.json
     depends_on:
       - db
+    volumes:
+      -  .:/app
+
+  api-production-test:
+    build:
+      dockerfile: Dockerfile.api
+      target: runner
+      no_cache: true
+    ports:
+      - "${GCP_API_PORT}:${GCP_API_PORT}"
+    profiles:
+      - test
+
+  migration-production-test:
+    build:
+      dockerfile: Dockerfile.sql
+      target: migration
+    environment:
+      URL: ${DB_CONNECTION_URL}
+    profiles:
+      - test

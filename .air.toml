@@ -7,7 +7,7 @@ tmp_dir = ".air"
 
 [build]
 # Just plain old shell command. You could use `make` as well.
-cmd = "go build -o ./.air/main ./cmd/dev_api/main.go"
+cmd = "go build -o ./.air/main ./cmd/api/dev/main.go"
 # Binary file yields from `cmd`.
 bin = ".air/main"
 # Customize binary, can setup environment variables when run your app.
@@ -16,13 +16,15 @@ full_bin = "./.air/main"
 include_ext = ["go", "gql", "html"]
 # Watch these directories if you specified.
 include_dir = [
-  "gql",
-  "cmd",
   "api",
-  "ent/schema",
-  "ent/hook",
+  "cmd",
   "ent/entc",
   "ent/entc.go",
+  "ent/hook",
+  "ent/schema",
+  "gql",
+  "pkg",
+  "resolver",
 ]
 # Ignore these filename extensions or directories.
 exclude_dir = []

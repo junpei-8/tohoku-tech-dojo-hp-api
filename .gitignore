@@ -1,4 +1,10 @@
 /.air
+/.docker
 /db
 bin/
 vendor/
+
+.env*
+!.env.example
+
+.credential*

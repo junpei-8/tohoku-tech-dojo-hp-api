@@ -1,24 +1,47 @@
-# 東北TECH道場 HP API
+# 東北 TECH 道場 HP API
 
-The code for https://entgo.io/docs/tutorial-setup
+<br>
 
-## Installation
+## セットアップ
 
-```console
-git clone git@github.com:a8m/ent-graphql-example.git
-cd ent-graphql-example
-go run ./cmd/todo/
+```
+go mod download
 ```
 
-Then, open [localhost:8081](http://localhost:8081) to see the GraphQL playground. 
+<br>
 
-## Report Issues / Proposals
+## 開発
 
-The issue tracker for this repository is located at [ent/ent](https://github.com/ent/ent/issues).
+### DB
 
-## Join the ent Community
-In order to contribute to `ent`, see the [CONTRIBUTING](https://github.com/ent/ent/blob/master/CONTRIBUTING.md) file for how to go get started.  
-If your company or your product is using `ent`, please let us know by adding yourself to the [ent users page](https://github.com/ent/ent/wiki/ent-users).
+```
+docker compose up db
+```
 
-## License
-This project is licensed under Apache 2.0 as found in the [LICENSE file](LICENSE).
+### DB GUI Manager
+
+```
+docker compose up db-gui
+```
+
+### API
+
+```
+docker compose up api
+```
+
+<br>
+
+## デプロイ
+
+### API
+
+```
+make deploy-api
+```
+
+### DB
+
+```
+make deploy-db
+```

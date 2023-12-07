@@ -6,19 +6,14 @@ import (
 	"context"
 )
 
-type User struct {
-	*ent.Client
-}
-
-func (s User) Hooks() []ent.Hook {
+func UserHooks(client *ent.Client) []ent.Hook {
 	return []ent.Hook{
 		On(
 			func(next ent.Mutator) ent.Mutator {
 				return UserFunc(func(ctx context.Context, m *ent.UserMutation) (ent.Value, error) {
 					email, _ := m.Email()
 
-					existsUser, err := s.
-						Client.
+					existsUser, err := client.
 						User.
 						Query().
 						Where(user.Email(email)).

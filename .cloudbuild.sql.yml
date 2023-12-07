@@ -1,0 +1,14 @@
+steps:
+  # Migrate the database
+  - id: migrate
+    name: 'docker'
+    args: [
+      'run',
+      '-v', '${HOME}/:',
+      'arigaio/atlas:latest',
+      'migrate', 'apply',
+      '--env', 'production',
+      '--url', '${_URL}',
+      # ↓ ファイルが参照できなため、別な方法を使う必要がある
+      '--dir', 'file://migrations',
+    ]

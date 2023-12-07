@@ -1,4 +1,4 @@
-package cmd
+package pkg
 
 import (
 	"log"
@@ -7,8 +7,9 @@ import (
 )
 
 func LoadEnv() {
-	err := godotenv.Load(".env")
+	err := godotenv.Load()
+
 	if err != nil {
-		log.Fatal("loading .env file", err)
+		log.Fatal("Failed loading .env file: ", err)
 	}
 }

@@ -1,7 +1,13 @@
 {
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "golang.go",
   "editor.codeActionsOnSave": {
     "source.fixAll": true
+  },
+  "editor.defaultFormatter": "golang.go",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

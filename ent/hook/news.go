@@ -9,12 +9,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// @see https://stackoverflow.com/questions/28800672/how-to-add-new-methods-to-an-existing-type-in-go
-type News struct {
-	*ent.Client
-}
-
-func (s News) Hooks() []ent.Hook {
+func NewsHooks(client *ent.Client) []ent.Hook {
 	return []ent.Hook{
 		On(
 			func(next ent.Mutator) ent.Mutator {
@@ -22,25 +17,25 @@ func (s News) Hooks() []ent.Hook {
 					// 型アサーション
 					// intTagIds := m.TagsIDs()
 					// tagIds := make([]any, len(intTagIds))
-					tags, err := s.
-						Client.
-						Tag.
-						Query().
-						Where(
-							tag.HasNewsTaggingWith(
-								func(s *sql.Selector) {
-									// s.Where(
-									// 	s.
-									// 		Select(newstagging.TagFieldID).
-									// 		GroupBy(newstagging.TagFieldID).
-									// 		Having(
-									// 			sql.LT(sql.Count(newstagging.TagFieldID), 2),
-									// 		),
-									// ),
-								},
-							),
-						).
-						All(ctx)
+					tags, err :=
+						client.
+							Tag.
+							Query().
+							Where(
+								tag.HasNewsTaggingWith(
+									func(s *sql.Selector) {
+										// s.Where(
+										// 	s.
+										// 		Select(newstagging.TagFieldID).
+										// 		GroupBy(newstagging.TagFieldID).
+										// 		Having(
+										// 			sql.LT(sql.Count(newstagging.TagFieldID), 2),
+										// 		),
+										// ),
+									},
+								),
+							).
+							All(ctx)
 
 					if err != nil {
 						return nil, err

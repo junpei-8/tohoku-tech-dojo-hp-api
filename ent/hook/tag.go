@@ -6,18 +6,14 @@ import (
 	"context"
 )
 
-type Tag struct {
-	*ent.Client
-}
-
-func (s Tag) Hooks() []ent.Hook {
+func TagHooks(client *ent.Client) []ent.Hook {
 	return []ent.Hook{
 		On(
 			func(next ent.Mutator) ent.Mutator {
 				return TagFunc(func(ctx context.Context, m *ent.TagMutation) (ent.Value, error) {
 					title, _ := m.Title()
 
-					existsTag, err := s.
+					existsTags, err := client.
 						Tag.
 						Query().
 						Where(tag.Title(title)).
@@ -28,8 +24,8 @@ func (s Tag) Hooks() []ent.Hook {
 						return nil, err
 					}
 
-					if len(existsTag) != 0 {
-						return existsTag[0], err
+					if len(existsTags) != 0 {
+						return existsTags[0], nil
 					}
 
 					return next.Mutate(ctx, m)
